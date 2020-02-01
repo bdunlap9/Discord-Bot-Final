@@ -1,0 +1,14 @@
+vulners
+discord
+git+https://github.com/Rapptz/discord.py
+shodan
+python-nmap
+bs4
+PyGithub
+pprint
+ipwhois
+dnspython
+censys
+requests
+google
+PyNaCl
