@@ -36,14 +36,14 @@ def restart_program():
 weeke_system('cls')
 ctypes.windll.kernel32.SetConsoleTitleW("[Weeke's]->Discord Bot")
 
-token = 'NjcyNTc4OTI4MTU3NjU1MDUy.XjNh-w.m5mT44s1v56IAYiXSs_NFOlED44'
-SHODAN_API_KEY = 'MdcnKrm7hnwNywcujIlmerEn0t3JaoX3'
+token = ''
+SHODAN_API_KEY = ''
 API_URL = "https://censys.io/api/v1"
-api_id = "1131b8d4-2697-4b0d-9448-34f1b98074ff"
-api_secret = "QGXdAbO6EpXcgm008tQPf9zMVOq2ATyC"
-GITHUB_ACCESS_TOKEN = '7f584e1836c2722af08cda7c7322c09d17844187'
-vulners_api_key = "LGRYBGHG21XV4PKLAAWLNSJ3F6LPPR9PBGBTB0PH62HT1QV8SG99PQ0JQSZQHFMZ"
-vt_api = '0e5ee9a9b72f3bd10ec443ca0010ffc40393ff9b64f5597833593ff2d8b0496b'
+api_id = ""
+api_secret = ""
+GITHUB_ACCESS_TOKEN = ''
+vulners_api_key = ""
+vt_api = ''
 
 # setup scanner
 scanner = nmap.PortScanner()
