@@ -1,29 +1,12 @@
 # [Weeke's] -> Discord Bot Source
 
-import discord
-import nmap
-import subprocess
-import dns.resolver
+import discord, nmap, subprocess, dns.resolver, socket, vulners, base64, ctypes, time, requests, markdown, censys, virustotal3.core, censys.certificates, censys.data, censys.ipv4, shodan, os, sys
+
 from dnsdumpster.DNSDumpsterAPI import DNSDumpsterAPI
-import socket
-import vulners
-import base64
-import ctypes
-import requests
-import time
-import markdown
-import censys
 from bs4 import BeautifulSoup as BS
-import virustotal3.core
-import censys.certificates
-import censys.data
-import censys.ipv4
 from github import Github
 from pprint import pprint
 from ipwhois import IPWhois
-import shodan
-import os
-import sys
 from discord.ext import commands
 
 def weeke_system(cmd):
@@ -50,7 +33,6 @@ scanner = nmap.PortScanner()
 
 bot = commands.Bot(command_prefix='.')
 
-
 @bot.event
 async def on_connect():
     print('[LOGS] Connecting to discord!')
@@ -59,7 +41,7 @@ async def on_connect():
 @bot.event
 async def on_ready():
     print('[LOGS] Bot is ready!')
-    print('[LOGS] Logged in: {}'.format(bot.user.name))
+    print(f'[LOGS] Logged in: {bot.user.name}')
 
 
 @bot.event
@@ -121,6 +103,7 @@ async def h(ctx):
     embed2.add_field(name='.vtSampleReport', value='Creates a virustotal report for a given sample', inline=True)
     embed2.add_field(name='.vtSampleDownload', value="Downloads a given sample from virus total (I don't have an API key that can do this feature)", inline=False)
     embed2.add_field(name='.dnsDumpster', value='Use dnsDumpster unoficiall api', inline=True)
+    embed2.add_field(name='.shodanSearch', value='Use shodan to find IOT Device IPs', inline=True)
     await ctx.send(embed=embed2)
 
 
@@ -244,6 +227,18 @@ async def getRefs(ctx, ip=None):
     await ctx.send('https://censys.io/ipv4/' + ip)
     await ctx.send('https://www.shodan.io/host/' + ip)
 
+@bot.command()
+async def shodanSearch(ctx, ip=None):
+    print(f'[LOGS] Running a shodan IOT search query.')
+    api = shodan.Shodan(SHODAN_API_KEY)
+
+    # Perform the search
+    query = ' '.join(sys.argv[1:])
+    result = api.search(query)
+
+    # Loop through the matches and print each IP
+    for service in result['matches']:
+        await ctx.send(f"{service['ip_str']}")
 
 @bot.command()
 async def scanIp(ctx, ip=None):
