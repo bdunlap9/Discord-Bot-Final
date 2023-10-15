@@ -104,6 +104,7 @@ async def h(ctx):
     embed2.add_field(name='.vtSampleDownload', value="Downloads a given sample from virus total (I don't have an API key that can do this feature)", inline=False)
     embed2.add_field(name='.dnsDumpster', value='Use dnsDumpster unoficiall api', inline=True)
     embed2.add_field(name='.shodanSearch', value='Use shodan to find IOT Device IPs', inline=True)
+    embed2.add_field(name='.nmapPortScan' value='Run an NMAP Port scan', inline=True)
     await ctx.send(embed=embed2)
 
 
@@ -155,6 +156,35 @@ async def unBan(ctx, *, member=None):
             print(f'\n[LOGS] Unbanning {user.mention}!')
             await ctx.guild.unban(user)
             await ctx.send(f'Unbanned {user.mention}!')
+
+@bot.command()
+async def nmapPortScan(ctx, ip_addr=None)
+    print(f'[LOGS] Running nmapPortScan command on {ip_addr}')
+
+    if ip_addr is None:
+        print('\n[LOGS] Must enter a ip!')
+        ctx.send('Must enter a ip!')
+
+    scanner.scan(ip_addr, '1-65535')
+    
+    scan_results = ''  # Initialize an empty string to store the results
+
+    for host in scanner.all_hosts():
+        scan_results += '----------------------------------------------------\n'
+        scan_results += f'Host : {host} ({scanner[host].hostname()})\n'
+        scan_results += f'State : {scanner[host].state()}\n'
+        for proto in scanner[host].all_protocols():
+            scan_results += '----------\n'
+            scan_results += f'Protocol : {proto}\n'
+
+            lport = list(scanner[host][proto].keys())
+            lport.sort()
+            
+            for port in lport:
+                scan_results += f'port : {port}\tstate : {scanner[host][proto][port]["state"]}\n'
+
+    # Send the results to Discord
+    await ctx.send(f"**Nmap Scan Results for {ip_addr}**\n```\n{scan_results}\n```")
 
 
 @bot.command()
