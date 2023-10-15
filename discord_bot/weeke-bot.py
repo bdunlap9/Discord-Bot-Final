@@ -182,10 +182,10 @@ async def nmapPortScan(ctx, ip_addr=None)
             lport.sort()
             
             for port in lport:
-                scan_results += f'port : {port}\tstate : {scanner[host][proto][port]["state"]}\n'
+                scan_results += f'port : {port}\tstate : {scanner[host][proto][port]['state']}\n'
 
     # Send the results to Discord
-    await ctx.send(f"**Nmap Scan Results for {ip_addr}**\n```\n{scan_results}\n```")
+    await ctx.send(f'**Nmap Scan Results for {ip_addr}**\n```\n{scan_results}\n```')
 
 
 @bot.command()
