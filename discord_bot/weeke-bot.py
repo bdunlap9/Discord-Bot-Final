@@ -277,10 +277,6 @@ AUTOMATION  HTTP     Effective method for HTTP/HTTPs
 BYPASS      HTTP     Effective method for HTTP/HTTPs
 SOCKET      HTTP     Socket method for mass requests
 SPAMMER     HTTP     Spammer method for mass requests
-BYPASS      HTTP     Powerful layer 7 attack.
-SOCKET      HTTP     Powerful layer 7 attack.
-AUTOMATION  HTTP     Powerful layer 7 attack.
-SPAMMER     HTTP     Powerful layer 7 attack.
 ELITE       HTTP
 ''')
     elif action == "get_running_attacks":
