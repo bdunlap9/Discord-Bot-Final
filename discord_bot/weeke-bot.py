@@ -106,7 +106,7 @@ async def h(ctx):
     embed2.add_field(name='.dnsDumpster', value='Use dnsDumpster unoficiall api', inline=True)
     embed2.add_field(name='.shodanSearch', value='Use shodan to find IOT Device IPs', inline=True)
     embed2.add_field(name='.nmapPortScan', value='Run an NMAP Port scan', inline=True)
-    embed2.add_field(name='.ddos', value='', inline=True)
+    embed2.add_field(name='.ddos', value='.ddos help (To get usage info and methods.)', inline=True)
     await ctx.send(embed=embed2)
 
 
@@ -228,6 +228,13 @@ async def ddos(ctx, action, *args):
     if action == "help":
         print(f'[LOGS] Running ddos help command.')
         await ctx.send(f'''
+                       
+Usage:
+    .ddos help
+    .ddos get_running_attacks
+    .ddos launch_layer4_attack <api_key> <host> <port> <time> <method>
+    .ddos launch_layer7_attack <host> <port> <time> <method> [postdata] [cookie] [referer] [useragent] [req] [delay] [con]                       
+
 Layer 4 Methods
 
 Layer 4 methods are meant for IPv4 targets, using UDP and TCP protocols for attacks.
