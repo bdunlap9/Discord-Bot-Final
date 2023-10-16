@@ -58,7 +58,7 @@ async def h(ctx):
         '.getRefs\n .scanIp\n .whois\n .resolveCF\n .censysCertificates\n .censysRaw\n .censysData\n .censysIp\n ',
         '.traceroute\n .nslookup\n .nmap\n .b64encode\n .b64decode\n .urlDecode\n .githubSearch\n .exploits\n ',
         '.terminal\n .sqliTest\n .searchVT\n .vtSampleReport\n .vtSampleDownload\n .dnsDumpster\n .shodanSearch\n ',
-        '.nmapPortScan\n .launch_layer7_attack')
+        '.nmapPortScan\n .ddos')
     embed = discord.Embed(
         title="List of all commands that can be used",
         description="Command list",
