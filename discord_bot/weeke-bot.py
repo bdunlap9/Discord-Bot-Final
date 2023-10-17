@@ -259,7 +259,9 @@ UDP         UDP      Powerful UDP bypass method that randomizes each IP header a
 GAME-SOURCE UDP      Uses Source Engine Query to take down Valve/Source servers, very effective if the server is not protected.
 UDP-INSTANT-ABUSE UDP Like the regular ABUSE method but with better IP selection and faster suspensions.
 UDP-BYPASS  UDP      UDPBYPASS is made to target applications using UDP on the targeted port to attempt to create the most legitimate traffic out on the application.
-GAME-FIVEM  UDP      Bypass method for GTA V servers that are using the FiveM multiplayer modification framework.
+GAME-FIVEM  UDP      Bypass method for GTA V servers that are using the FiveM multip
+                       
+                       layer modification framework.
 GAME-RAKNET UDP      Targeting the widely used cross-platform multiplayer game networking engine, allowing DDoS attacks on games like Rust, Minecraft PE, RageMP, and many other games.
 GAME-MINECRAFT UDP  Uses crafted Minecraft queries to take down Minecraft servers, very effective if the server is not protected.
 GAME-QUAKE  UDP      Uses QUAKE engine queries, also works with games like Soldier of Fortune 2, Nexuiz, Quake 3, Wolfenstein, Star Trek Elite Force, Urban Terror, Star Wars JK2, Call of Duty (1, 2, 3, 4, MW2, UO), Star Wars JK, Star Trek Elite Force 2, FiveM, and Tremulous.
@@ -274,6 +276,8 @@ TCP-PROTECT TCP      Powerful TCP method that can bypass various servers.
 TCP-SYNACK  TCP      Powerful method that emulates a SYN-ACK handshake.
 TCP-DATA    TCP      TCP method that attempts to emulate a real connection with SYN and PSH+ACK data.
 ICMP        ICMP     Old-school ICMP attack, causes lag and CPU usage on some servers.
+                       
+                       
 
 Layer 7 Methods
 
